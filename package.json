@@ -1,0 +1,24 @@
+{
+  "name": "ribs-api",
+  "version": "1.0.0",
+  "description": "this api class offers a simple way to post or get an url and the results related to it with fetch",
+  "main": "RibsApi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ribs-organization/ribs-api.git"
+  },
+  "keywords": [
+    "api",
+    "fetch-api",
+    "es6"
+  ],
+  "author": "Anthony Pilloud",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ribs-organization/ribs-api/issues"
+  },
+  "homepage": "https://github.com/Ribs-organization/ribs-api#readme"
+}
