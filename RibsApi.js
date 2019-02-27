@@ -13,10 +13,11 @@ class RibsApi {
   /**
    * method to get a url by get method
    * @param url
+   * @param format
    * @returns {Promise<Response>}
    */
-  get(url) {
-    return this.execRequest('GET', url);
+  get(url, format = 'json') {
+    return this.execRequest('GET', url, format);
   }
 
   /**
@@ -24,9 +25,10 @@ class RibsApi {
    * datas can be a form data or an object that will be transform to a FormData object
    * @param url
    * @param data
+   * @param format
    * @returns {*}
    */
-  post(url, data) {
+  post(url, data, format = 'json') {
     let formData;
 
     if (!(data instanceof FormData)) {
@@ -39,18 +41,25 @@ class RibsApi {
       formData = data;
     }
 
-    return this.execRequest('POST', url, formData);
+    return this.execRequest('POST', url, format, formData);
   }
 
   /**
    * method that send all types of request to a given url
    * @param method
    * @param url
+   * @param format
    * @param body
    * @returns {Promise<Response>}
    */
-  execRequest(method, url, body = null) {
-    const request = new Request(`${this.baseUrl}${url}`, {
+  execRequest(method, url, format, body = null) {
+    let postUrl = url;
+
+    if (url[0] === '/') {
+      postUrl = url.substr(1);
+    }
+
+    const request = new Request(`${this.baseUrl}${postUrl}`, {
       method,
       mode: this.mode,
       body,
@@ -63,7 +72,11 @@ class RibsApi {
         return 'error';
       }
 
-      return response.json();
+      if (format === 'json') {
+        return response.json();
+      }
+
+      return response.text();
     });
   }
 }
