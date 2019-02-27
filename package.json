@@ -1,6 +1,6 @@
 {
   "name": "ribs-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "this api class offers a simple way to post or get an url and the results related to it with fetch",
   "main": "RibsApi.js",
   "scripts": {
