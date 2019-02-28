@@ -5,7 +5,13 @@ class RibsApi {
    * @param credentials of the url like same-origin
    */
   constructor(baseUrl, mode, credentials) {
-    this.baseUrl = baseUrl;
+    let startUrl = '';
+
+    if (!window.origin && mode !== 'cors') {
+      startUrl = `${window.location.protocol}//${window.location.hostname}${(window.location.port ? `:${window.location.port}` : '')}`;
+    }
+
+    this.baseUrl = `${startUrl}${baseUrl}`;
     this.mode = mode;
     this.credentials = credentials;
   }
