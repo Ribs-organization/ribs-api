@@ -73,17 +73,52 @@ class RibsApi {
     });
 
     return fetch(request)
-    .then((response) => {
-      if (response.status !== 200) {
-        return 'error';
-      }
+      .then((response) => {
+        if (response.status !== 200) {
+          return 'error';
+        }
 
-      if (format === 'json') {
-        return response.json();
-      }
+        if (format === 'json') {
+          return response.json();
+        }
 
-      return response.text();
+        return response.text();
+      })
+      .then((html) => {
+        if (format === 'json') {
+          return html;
+        }
+
+        const parser = new DOMParser();
+        const parsedDocument = parser.parseFromString(html, "text/html");
+
+        this.deleteScriptTagDom();
+        this.insertScriptTagInDom(parsedDocument);
+
+        return html;
+      });
+  }
+
+  /**
+   * method to delete script tags in parent document
+   */
+  deleteScriptTagDom() {
+    document.querySelectorAll('script[data-ribsajaxscript]').forEach((element) => {
+      document.body.removeChild(element);
     });
+  }
+
+  /**
+   * method to insert script tags in parent document
+   * @param parsedDocument
+   */
+  insertScriptTagInDom(parsedDocument) {
+      parsedDocument.querySelectorAll('script').forEach((element) => {
+        const script = parsedDocument.createElement("script");
+        script.src = element.src;
+        script.dataset.ribsajaxscript = '';
+        document.body.appendChild(script);
+      });
   }
 }
 
