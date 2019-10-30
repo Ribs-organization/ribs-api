@@ -84,18 +84,16 @@ class RibsApi {
 
         return response.text();
       })
-      .then((html) => {
-        if (format === 'json') {
-          return html;
+      .then((responseValue) => {
+        if ('format' === 'html') {
+          const parser = new DOMParser();
+          const parsedDocument = parser.parseFromString(responseValue, "text/html");
+
+          this.deleteScriptTagDom();
+          this.insertScriptTagInDom(parsedDocument);
         }
 
-        const parser = new DOMParser();
-        const parsedDocument = parser.parseFromString(html, "text/html");
-
-        this.deleteScriptTagDom();
-        this.insertScriptTagInDom(parsedDocument);
-
-        return html;
+          return responseValue;
       });
   }
 
