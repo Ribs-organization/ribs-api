@@ -85,7 +85,7 @@ class RibsApi {
         return response.text();
       })
       .then((responseValue) => {
-        if ('format' === 'html') {
+        if (format === 'html') {
           const parser = new DOMParser();
           const parsedDocument = parser.parseFromString(responseValue, "text/html");
 
